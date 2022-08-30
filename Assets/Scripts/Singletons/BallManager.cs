@@ -158,13 +158,14 @@ public class BallManager : MonoBehaviour
         }
     }
 
-    public void ClearInterval(int first, int last)
-    {
-        for (int i = first + 1; i < last; i++)
-        {
-            balls.RemoveAt(i);
-        }
-    }
+    //public void ClearInterval(int first, int last)
+    //{
+    //    for (int i = first + 1; i < last; i++)
+    //    {
+    //        balls.RemoveAt(i);
+    //    }
+    //}
+
     public void StartImpactBallStack(BallStateManager ball, int index)
     {
         StartCoroutine(ImpactBallStack(ball, index));
