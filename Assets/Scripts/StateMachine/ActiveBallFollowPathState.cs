@@ -18,7 +18,7 @@ public class ActiveBallFollowPathState : BallBaseState
 
         distanceToGo = (RouterManager.Instance.distanceTravelled + index);
 
-        distanceTravelled = Mathf.Lerp(distanceTravelled, distanceToGo, 0.2f);
+        distanceTravelled = Mathf.Lerp(distanceTravelled, distanceToGo, 0.3f);
         ball.transform.position = RouterManager.Instance.pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
         ball.transform.rotation = RouterManager.Instance.pathCreator.path.GetRotationAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
     }

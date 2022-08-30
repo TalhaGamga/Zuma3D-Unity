@@ -54,13 +54,13 @@ public class BallManager : MonoBehaviour
 
     public List<BallStateManager> passiveFollowerBalls;
 
-    int counter = 10;
+    int counter = 8;
 
     public int previous;
     public GameObject tempParent;
-    public GameObject CreateBall()
+    public GameObject CreateBall(ColorType randomColor)
     {
-        ballObj = ballPrefabs[(int)ChooseRandomColor()];
+        ballObj = ballPrefabs[(int)randomColor];
         return ballObj;
     }
 
@@ -70,13 +70,18 @@ public class BallManager : MonoBehaviour
         return randomColor;
     }
 
-    void SpawnBall()
+    void SpawnBall() 
     {
         for (int i = 0; i < counter; i++)
         {
-            BallStateManager ballStateManager = Instantiate(CreateBall(), spawnPoint.position, Quaternion.identity).GetComponent<BallStateManager>();
-            balls.Add(ballStateManager);
-            ballStateManager.InitState(BallState.ActiveFollowPath);
+            int randomSameColoredBallNum = Random.Range(1, 4);
+            ColorType randomColor = ChooseRandomColor();
+            for (int s = 0; s < randomSameColoredBallNum; s++)
+            {
+                BallStateManager ballStateManager = Instantiate(CreateBall(randomColor), spawnPoint.position, Quaternion.identity).GetComponent<BallStateManager>();
+                balls.Add(ballStateManager);
+                ballStateManager.InitState(BallState.ActiveFollowPath);
+            }
         }
     }
 

@@ -35,6 +35,4 @@ public class RouterManager : MonoBehaviour
         distanceTravelled += speed * Time.deltaTime;
         transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
     }
-
-
 }
