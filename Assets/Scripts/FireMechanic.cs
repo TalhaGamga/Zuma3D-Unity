@@ -34,7 +34,6 @@ public class FireMechanic : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         fireBall = Instantiate(CreateBall(), firePos.position, Quaternion.identity, transform);
-        fireBall.tag = "FireBall";
         fireBall.GetComponent<BallStateManager>().InitState(BallState.Fireball);
         //Debug.Log(fireBall);
     }

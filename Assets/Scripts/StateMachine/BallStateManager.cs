@@ -8,7 +8,7 @@ using UnityEngine;
 //    ActiveFollowPathState,
 //    PassiveFollowPathState //Create passive follow path state
 //}
-public class BallStateManager : MonoBehaviour 
+public class BallStateManager : MonoBehaviour
 {
     public string color;
 
@@ -22,6 +22,7 @@ public class BallStateManager : MonoBehaviour
     {
         color = this.GetComponent<Renderer>().material.color.ToString();
     }
+
     void Update()
     {
         if (currentState != null)
@@ -35,18 +36,22 @@ public class BallStateManager : MonoBehaviour
         switch (state)
         {
 
-
             case BallState.ActiveFollowPath:
                 currentState = ActiveFollowPathState;
                 currentState.EnterState(this);
+                gameObject.tag = "ActiveFollowerBall";
+
                 break;
             case BallState.PassiveFollowPath:
                 currentState = PassiveFollowPathState;
                 currentState.EnterState(this);
+                gameObject.tag = "PassiveFollowerBall";
                 break;
             case BallState.Fireball:
                 currentState = FireballState;
                 //currentState.EnterState(this);
+                gameObject.tag = "FireBall";
+
                 break;
         }
     }
@@ -63,12 +68,18 @@ public class BallStateManager : MonoBehaviour
         {
             case BallState.ActiveFollowPath:
                 currentState = ActiveFollowPathState;
-
+                gameObject.tag = "ActiveFollowerBall";
                 //currentStateType = StateType.ActiveFollowPathState;
                 //currentState.EnterState(this);
                 break;
+            case BallState.PassiveFollowPath:
+                currentState = PassiveFollowPathState;
+                currentState.EnterState(this);
+                gameObject.tag = "PassiveFollowerBall";
+                break;
             case BallState.Fireball:
                 currentState = FireballState;
+                gameObject.tag = "FireBall";
                 //currentState.EnterState(this);
                 break;
         }

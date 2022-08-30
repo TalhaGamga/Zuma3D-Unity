@@ -15,14 +15,16 @@ public class BallFireballState : BallBaseState
     {
         if (collision.gameObject.TryGetComponent<BallStateManager>(out BallStateManager ballStateManager))
         {
-            //ball.gameObject.tag = collision.gameObject.tag;
+
             if (!BallManager.Instance.balls.Contains(ball))
             {
+                //if (collision.gameObject.CompareTag("ActiveFollowerBall"))
+                //{
                 ContactPoint contact = collision.contacts[0];
                 Vector3 collisionDir = (contact.point - collision.transform.position);
                 float angle = Vector3.Angle(collisionDir, collision.transform.forward);
 
-                int collisionIndex = BallManager.Instance.balls.IndexOf(ballStateManager);
+                int collisionIndex = BallManager.Instance.balls.IndexOf(ballStateManager); 
                 int replacementIndex;
 
                 if (angle < 90)
@@ -33,18 +35,32 @@ public class BallFireballState : BallBaseState
                 else
                 {
                     replacementIndex = collisionIndex;
-                }
+                } 
 
                 BallManager.Instance.balls.Insert(replacementIndex, ball);
 
-                ball.gameObject.transform.DOMove(RouterManager.Instance.pathCreator.path.GetClosestPointOnPath(ball.transform.position), 0.04f).OnComplete(() => ball.SwitchState(BallState.ActiveFollowPath));
+                ball.gameObject.transform.DOMove(RouterManager.Instance.pathCreator.path.GetClosestPointOnPath(ball.transform.position), 0.04f);
                 BallManager.Instance.StartImpactBallStack(ball, replacementIndex);
+
+                if (collision.gameObject.CompareTag("ActiveFollowerBall"))
+                {
+                    ball.SwitchState(BallState.ActiveFollowPath);
+                }
+
+                else if (collision.gameObject.CompareTag("PassiveFollowerBall"))
+                {
+                    ball.SwitchState(BallState.PassiveFollowPath);
+                }
+
+                //}
+
+                //else if (collision.gameObject.CompareTag("PassiveFollowerBall"))
+                //{
+                //    ball.SwitchState(BallState.PassiveFollowPath);
+                //}
             }
         }
     }
 
-    public override void ResetVar(BallStateManager ball)
-    {
 
-    }
 }

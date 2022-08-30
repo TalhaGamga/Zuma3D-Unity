@@ -15,10 +15,9 @@ public class ActiveBallFollowPathState : BallBaseState
     public override void UpdateState(BallStateManager ball)
     {
         index = BallManager.Instance.balls.IndexOf(ball);
-        if (canGo)
-        {
-            distanceToGo = (RouterManager.Instance.distanceTravelled + index);
-        }
+
+        distanceToGo = (RouterManager.Instance.distanceTravelled + index); 
+
         distanceTravelled = Mathf.Lerp(distanceTravelled, distanceToGo, 0.2f);
         ball.transform.position = RouterManager.Instance.pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
         ball.transform.rotation = RouterManager.Instance.pathCreator.path.GetRotationAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
@@ -27,10 +26,6 @@ public class ActiveBallFollowPathState : BallBaseState
     public override void OnCollisionEnter(BallStateManager ball, Collision collision)
     {
 
-    }
-
-    public override void ResetVar(BallStateManager ball)
-    {
     }
 
     //public override void ResetVar(BallStateManager ball)

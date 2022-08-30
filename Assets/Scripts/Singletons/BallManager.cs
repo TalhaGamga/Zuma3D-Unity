@@ -31,6 +31,10 @@ public class BallManager : MonoBehaviour
         instance = this;
     }
 
+    private void OnDisable()
+    {
+    }
+
     public Transform spawnPoint;
     GameObject ballObj;
 
@@ -47,6 +51,8 @@ public class BallManager : MonoBehaviour
     public List<ColorType> colorTypes = new List<ColorType> { ColorType.Blue, ColorType.Green, ColorType.Red, ColorType.Yellow };
     public List<GameObject> ballPrefabs;
     public List<BallStateManager> balls;
+
+    public List<BallStateManager> passiveFollowerBalls;
 
     int counter = 10;
 
@@ -70,16 +76,18 @@ public class BallManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0f);
             BallStateManager ballStateManager = Instantiate(CreateBall(), spawnPoint.position, Quaternion.identity).GetComponent<BallStateManager>();
-            ballStateManager.tag = "ActiveFollowerBall";
             balls.Add(ballStateManager);
             ballStateManager.InitState(BallState.ActiveFollowPath);
         }
     }
 
+    public int deletedNum;
+    public float passiveBallOffset;
+    public bool isPassiveBallCorrupted = false;
     public IEnumerator ImpactBallStack(BallStateManager ball, int index)
     {
         tempList = new List<BallStateManager>();
-
+        tempList.Clear();
         previous = index - 1;
 
         if (previous >= 0)
@@ -118,21 +126,31 @@ public class BallManager : MonoBehaviour
                 Destroy(tempList[i].gameObject);
             }
 
+            deletedNum = tempList.Count;
+
             tempList.Clear();
             if (previous >= 0)
-            {
+            { 
                 if (balls.Count > 2 && previous + 1 < balls.Count)
                 {
                     if (balls[previous].color == balls[previous + 1].color)
                     {
+                        Debug.Log("girdi");
                         StartCoroutine(ImpactBallStack(balls[previous], previous));
-                    }
+                    } 
+
                     else
-                    { 
+                    {
+                        if (!isPassiveBallCorrupted)
+                        { 
+                            passiveBallOffset = RouterManager.Instance.distanceTravelled;
+                            isPassiveBallCorrupted = true;
+                        }
+
                         for (int i = previous + 1; i < balls.Count; i++)
                         {
+                            Debug.Log(i);
                             balls[i].SwitchState(BallState.PassiveFollowPath);
-                            balls[i].tag = "PassiveFollowerBall";
                         }
                     }
                 }
@@ -140,8 +158,25 @@ public class BallManager : MonoBehaviour
         }
     }
 
+    public void ClearInterval(int first, int last)
+    {
+        for (int i = first + 1; i < last; i++)
+        {
+            balls.RemoveAt(i);
+        }
+    }
     public void StartImpactBallStack(BallStateManager ball, int index)
     {
         StartCoroutine(ImpactBallStack(ball, index));
     }
+
+    public void SwitchBallStateToFollow(BallStateManager ball)
+    {
+        int index = balls.IndexOf(ball);
+        for (int i = index; i < balls.Count; i++)
+        {
+            balls[i].SwitchState(BallState.ActiveFollowPath);
+        }
+    }
+
 }

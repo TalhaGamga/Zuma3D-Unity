@@ -811,6 +811,7 @@ MonoBehaviour:
   - {fileID: 5281334718471275153, guid: fefa9e1acbe032940b1090f5b5adb070, type: 3}
   - {fileID: 808040418431309476, guid: 5a2e7da32b5ba5a479145090f22cafd3, type: 3}
   balls: []
+  previous: 0
   tempParent: {fileID: 0}
 --- !u!4 &1988160481
 Transform:
