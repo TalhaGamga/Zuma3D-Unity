@@ -42,7 +42,7 @@ public class BallManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(IESpawnBall());
+        SpawnBall();
     }
     private void Update()
     {
@@ -70,11 +70,10 @@ public class BallManager : MonoBehaviour
         return randomColor;
     }
 
-    IEnumerator IESpawnBall()
+    void SpawnBall()
     {
         for (int i = 0; i < counter; i++)
         {
-            yield return new WaitForSeconds(0f);
             BallStateManager ballStateManager = Instantiate(CreateBall(), spawnPoint.position, Quaternion.identity).GetComponent<BallStateManager>();
             balls.Add(ballStateManager);
             ballStateManager.InitState(BallState.ActiveFollowPath);
@@ -130,26 +129,24 @@ public class BallManager : MonoBehaviour
 
             tempList.Clear();
             if (previous >= 0)
-            { 
+            {
                 if (balls.Count > 2 && previous + 1 < balls.Count)
                 {
                     if (balls[previous].color == balls[previous + 1].color)
                     {
-                        Debug.Log("girdi");
                         StartCoroutine(ImpactBallStack(balls[previous], previous));
-                    } 
+                    }
 
                     else
                     {
                         if (!isPassiveBallCorrupted)
-                        { 
+                        {
                             passiveBallOffset = RouterManager.Instance.distanceTravelled;
                             isPassiveBallCorrupted = true;
                         }
 
                         for (int i = previous + 1; i < balls.Count; i++)
                         {
-                            Debug.Log(i);
                             balls[i].SwitchState(BallState.PassiveFollowPath);
                         }
                     }

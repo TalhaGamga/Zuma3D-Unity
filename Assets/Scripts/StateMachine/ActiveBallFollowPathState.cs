@@ -16,7 +16,7 @@ public class ActiveBallFollowPathState : BallBaseState
     {
         index = BallManager.Instance.balls.IndexOf(ball);
 
-        distanceToGo = (RouterManager.Instance.distanceTravelled + index); 
+        distanceToGo = (RouterManager.Instance.distanceTravelled + index);
 
         distanceTravelled = Mathf.Lerp(distanceTravelled, distanceToGo, 0.2f);
         ball.transform.position = RouterManager.Instance.pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
@@ -27,24 +27,4 @@ public class ActiveBallFollowPathState : BallBaseState
     {
 
     }
-
-    //public override void ResetVar(BallStateManager ball)
-    //{
-    //    Debug.Log("Hello from reset var");
-
-    //    if (canGo)
-    //    {
-    //        canGo = false;
-    //    }
-    //    else if (!canGo)
-    //    {
-    //        canGo = true;
-    //    }
-
-    //    if (multiplier == 0)
-    //    {
-    //        multiplier = 1;
-    //        Debug.Log(multiplier);
-    //    }
-    //}
 }

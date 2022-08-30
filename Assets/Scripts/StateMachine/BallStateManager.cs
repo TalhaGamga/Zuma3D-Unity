@@ -1,13 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-//public enum StateType
-//{
-//    FireBallState,
-//    ActiveFollowPathState,
-//    PassiveFollowPathState //Create passive follow path state
-//}
 public class BallStateManager : MonoBehaviour
 {
     public string color;
@@ -17,7 +10,7 @@ public class BallStateManager : MonoBehaviour
     public ActiveBallFollowPathState ActiveFollowPathState = new ActiveBallFollowPathState();
     public PassiveBallFollowPathState PassiveFollowPathState = new PassiveBallFollowPathState();
 
-    //public StateType currentStateType;
+
     void Start()
     {
         color = this.GetComponent<Renderer>().material.color.ToString();
@@ -63,7 +56,6 @@ public class BallStateManager : MonoBehaviour
 
     public void InitState(BallState state)
     {
-        //Debug.Log(state);
         switch (state)
         {
             case BallState.ActiveFollowPath:

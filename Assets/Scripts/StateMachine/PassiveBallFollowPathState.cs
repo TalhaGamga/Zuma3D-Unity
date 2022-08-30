@@ -14,7 +14,6 @@ public class PassiveBallFollowPathState : BallBaseState
 
     public override void UpdateState(BallStateManager ball)
     {
-        Debug.Log(offset);
         distanceToWait = Mathf.Lerp(distanceToWait, offset + BallManager.Instance.deletedNum + BallManager.Instance.balls.IndexOf(ball), 0.2f);
         ball.transform.position = RouterManager.Instance.pathCreator.path.GetPointAtDistance(distanceToWait, EndOfPathInstruction.Stop);
     }
